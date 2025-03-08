@@ -1,12 +1,33 @@
-// Adicionar interatividade
+document.addEventListener('DOMContentLoaded', function() {
+    // Círculo cromático aprimorado
+    const circuloSVG = `
+        <svg viewBox="0 0 200 200">
+            <defs>
+                ${createGradients()}
+            </defs>
+            
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#ddd" stroke-width="2"/>
+            ${createColorWheel()}
+            
+            <!-- Marcadores de cor -->
+            <circle cx="100" cy="20" r="4" fill="#FF0000"/>
+            <circle cx="169.3" cy="130" r="4" fill="#00FF00"/>
+            <circle cx="30.7" cy="130" r="4" fill="#0000FF"/>
+        </svg>
+    `;
+
+    document.querySelector('.circle-container').innerHTML = circuloSVG;
+
+    // Add click interaction for color samples
     const cores = document.querySelectorAll('.cor');
     cores.forEach(cor => {
         cor.addEventListener('click', () => {
-            showColorInfo(cor.style.backgroundColor);
+            cor.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                cor.style.transform = 'scale(1)';
+            }, 200);
         });
     });
-
-    loadHarmonyImages();
 });
 
 function createGradients() {
@@ -26,6 +47,23 @@ function createGradients() {
             <stop offset="100%" stop-color="${color[1]}"/>
         </linearGradient>
     `).join('');
+}
+
+function createColorWheel() {
+    let paths = '';
+    for (let i = 0; i < 7; i++) {
+        const startAngle = i * 51.43;
+        const endAngle = (i + 1) * 51.43;
+        paths += `
+            <path d="
+                M 100 100
+                L ${100 + 80 * Math.cos(startAngle * Math.PI / 180)} ${100 + 80 * Math.sin(startAngle * Math.PI / 180)}
+                A 80 80 0 0 1 ${100 + 80 * Math.cos(endAngle * Math.PI / 180)} ${100 + 80 * Math.sin(endAngle * Math.PI / 180)}
+                Z
+            " fill="url(#grad${i})" />
+        `;
+    }
+    return paths;
 }
 
 function showColorInfo(color) {
@@ -53,7 +91,7 @@ function showColorInfo(color) {
     }
     
     container.innerHTML = '';
-    container.appendChild(info)
+    container.appendChild(info);
 }
 
 function getColorName(color) {
@@ -84,19 +122,5 @@ function getColorUsageSuggestion(colorName) {
 }
 
 function loadHarmonyImages() {
-    const harmonies = {
-        'monocromatica': 'monocromatica.jpg',
-        'analoga': 'Análoga.jpg',
-        'complementar': 'Complementar.jpg',
-        'triadica': 'Triade.jpg',
-        'complementar-dividida': 'dividida-complementar.jpg',
-        'quadrupla': 'quadrado.jpg'
-    };
-
-    for (const [harmonyClass, imagePath] of Object.entries(harmonies)) {
-        const imgContainer = document.querySelector(`.harmonia-${harmonyClass} .harmony-image`);
-        if (imgContainer) {
-            imgContainer.style.backgroundImage = `url(${imagePath})`;
-        }
-    }
+    // This function is no longer needed
 }

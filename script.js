@@ -1,21 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Círculo cromático aprimorado
-    const circuloSVG = `
-        <svg viewBox="0 0 200 200">
-            <defs>
-                ${createGradients()}
-            </defs>
-            
-            <circle cx="100" cy="100" r="80" fill="none" stroke="#ddd" stroke-width="2"/>
-            ${createColorWheel()}
-            
-            <!-- Marcadores de cor -->
-            <circle cx="100" cy="20" r="4" fill="#FF0000"/>
-            <circle cx="169.3" cy="130" r="4" fill="#00FF00"/>
-            <circle cx="30.7" cy="130" r="4" fill="#0000FF"/>
-        </svg>
-    `;
-
     document.querySelector('.circle-container').innerHTML = circuloSVG;
 
     // Add click interaction for color samples
